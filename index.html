@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fingi</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Firebase SDK-k -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://vizsga-55ea5-default-rtdb.europe-west1.firebasedatabase.app"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <!-- Játék script -->
+  <script src="script.js" defer></script>
+</head>
+
+<body id="game-container">
+  <!-- 🔽 START SCREEN -->
+  <div id="start-screen">
+    <h1 class="game-title">
+      <p>FEED</p>
+      <p>THE</p>
+      <p>MEOW!</p>
+    </h1>
+    <div class="play-button" onclick="startGame()"></div>
+    <div class="bottom-left-button" onclick="extraFunction()"></div>
+
+    <!-- 🔽 KOMMENT MEZŐ A FŐOLDALON -->
+    <div id="comment-section" style="max-width: 700px; margin: 40px auto; background: #fff; padding: 20px; border-radius: 8px;">
+      <h3>Hozzászólások</h3>
+      <div id="comments-list" style="margin-bottom: 20px;"></div>
+
+      <textarea id="comment-input" placeholder="Írd be a hozzászólásod..." style="width: 100%; height: 80px; margin-bottom: 10px;"></textarea><br>
+      <input type="text" id="comment-name" placeholder="Neved" style="width: 100%; margin-bottom: 10px;">
+      <button onclick="postComment()" style="width: 100%; padding: 10px; background-color: #345; color: white; border: none; border-radius: 5px;">Küldés</button>
+      <button onclick="firebase.database().ref('comments').push({ text: 'Teszt', name: 'Tesztelő', timestamp: Date.now() })">Teszt komment Firebase-be</button>
+    </div>
+  </div>
+
+  <!-- 🔽 LOGIN MODAL -->
+  <div id="login-modal" style="display: none;">
+    <div class="login-container">
+      <h2>Login</h2>
+      <input type="email" id="user-email" placeholder="Email" />
+      <input type="password" id="user-password" placeholder="Password" />
+      <button id="login-button">Login</button>
+      <button id="close-login">Close</button>
+    </div>
+  </div>
+
+  <!-- 🔽 GAME SCREEN -->
+  <div id="game-screen" style="display: none;">
+    <canvas id="gameCanvas" width="800" height="900"></canvas>
+
+    <div id="game-over-screen" class="game-over-screen" style="display: flex;">
+      <h1 class="game-over-title">Game Over</h1>
+      <h2 id="final-score">Your Score: 0</h2>
+      <div class="play-again-button" onclick="startGame()"></div>
+      <div class="quit-button" onclick="quitGame()"></div>
+    </div>
+  </div>
+</body>
+</html>
